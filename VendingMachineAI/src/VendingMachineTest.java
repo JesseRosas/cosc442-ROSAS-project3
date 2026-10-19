@@ -109,4 +109,34 @@ public class VendingMachineTest {
         assertEquals(10.00, machine.returnChange(), 0.001);
         assertEquals(0.00, machine.getBalance(), 0.001);
     }
+
+    @Test
+    void addingItemToSlotCSucceeds() {
+        VendingMachineItem item =
+                new VendingMachineItem("Cookies", 1.50);
+
+        machine.addItem(item, "C");
+
+        assertSame(item, machine.getItem("C"));
+    }
+
+    @Test
+    void addingItemToSlotDSucceeds() {
+        VendingMachineItem item =
+                new VendingMachineItem("Water", 2.00);
+
+        machine.addItem(item, "D");
+
+        assertSame(item, machine.getItem("D"));
+    }
+
+    @Test
+    void purchasingFromEmptySlotFails() {
+        machine.insertMoney(5.00);
+
+        assertFalse(machine.makePurchase("A"));
+        assertEquals(5.00, machine.getBalance(), 0.001);
+        assertNull(machine.getItem("A"));
+    }
+
 }
